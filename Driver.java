@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Driver {
 
-    public static void main(String [] args) throws FileNotFoundException {
+    public static void main(String [] args) {
 
        // test constructor w no parameters
         Polynomial empty_poly = new Polynomial();
@@ -22,7 +22,14 @@ public class Driver {
 
         Polynomial p1 = new Polynomial(c1, e1);
         Polynomial p2 = new Polynomial(c2, e2);
-        Polynomial p3 = new Polynomial(new File("poly.txt")); // test constructor w file parameter
+        Polynomial p3 = null;
+
+		try { // test constructor w file parameter
+			p3 = new Polynomial(new File("poly.txt"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
         Polynomial p4 = new Polynomial(c4, e4);
 
         // test add method
@@ -60,6 +67,6 @@ public class Driver {
 			prod3.saveToFile("polynomial2.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+        }
     }
 }
