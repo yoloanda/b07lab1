@@ -20,6 +20,17 @@ public class Polynomial {
         exponents[0] = 0;
     }
 
+    public Polynomial(double[] coefficients, int[] exponents) {
+        this.coefficients = new double[coefficients.length];
+        this.exponents = new int[exponents.length];
+
+        for (int i = 0; i < coefficients.length; i++)
+            this.coefficients[i] = coefficients[i];
+
+        for (int i = 0; i < exponents.length; i++)
+            this.exponents[i] = exponents[i];
+    }
+
     public Polynomial(File file) throws FileNotFoundException {
         String poly;
         Scanner in = new Scanner(file);
@@ -34,7 +45,7 @@ public class Polynomial {
         coefficients = new double[split.length];
         exponents = new int[split.length];
 
-        for(int i = 0; i < split.length; i++) {
+        for (int i = 0; i < split.length; i++) {
             String[] term = split[i].split("x");
 
             coefficients[index] = Double.parseDouble(term[0]);
@@ -46,17 +57,6 @@ public class Polynomial {
 
             index += 1;
         }
-    }
-
-    public Polynomial(double[] coefficients, int[] exponents) {
-        this.coefficients = new double[coefficients.length];
-        this.exponents = new int[exponents.length];
-
-        for(int i = 0; i < coefficients.length; i++)
-            this.coefficients[i] = coefficients[i];
-
-        for(int i = 0; i < exponents.length; i++)
-            this.exponents[i] = exponents[i];
     }
 
     // methods
@@ -129,7 +129,7 @@ public class Polynomial {
         for (int i = 0; i < length; i++)
             prodExponents[i] = -1;
 
-        for (int i = 0; i < exponents.length; i++) {
+        for (int i = 0; i < exponents.length; i++)
             for (int j = 0; j < p.exponents.length; j++) {
                 prodExp = exponents[i] + p.exponents[j];
                 prodCoef = coefficients[i] * p.coefficients[j];
@@ -142,7 +142,6 @@ public class Polynomial {
                 else
                     prodCoefficients[getIndex(prodExponents, prodExp)] += prodCoef;
             }
-        }
 
         return new Polynomial(prodCoefficients, prodExponents);
     }
@@ -150,7 +149,7 @@ public class Polynomial {
     public double evaluate(double x) {
         double result = 0;
 
-        for(int i = 0; i < coefficients.length; i++)
+        for (int i = 0; i < coefficients.length; i++)
             result += coefficients[i] * Math.pow(x, exponents[i]);
 
         return result;
@@ -164,10 +163,9 @@ public class Polynomial {
     private int sumLength(Polynomial p) {
         int length = exponents.length + p.exponents.length;
 
-        for(int i = 0; i < p.exponents.length; i++) {
+        for (int i = 0; i < p.exponents.length; i++)
             if (inArray(exponents, p.exponents[i]))
                 length -= 1;
-        }
 
         return length;
     }
@@ -182,14 +180,14 @@ public class Polynomial {
         length = exponents.length * p.exponents.length;
         exp = new int[length];
 
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
             exp[i] = -1;
 
         for (int i = 0; i < exponents.length; i++)
             for (int j = 0; j < p.exponents.length; j++) {
                 prodExp = exponents[i] + p.exponents[j];
 
-                if(!inArray(exp, prodExp)) {
+                if (!inArray(exp, prodExp)) {
                     exp[index] = prodExp;
                     index += 1;
                 }
@@ -200,20 +198,18 @@ public class Polynomial {
 
     // helper function to determine if element is in array
     private boolean inArray(int[] array, int x) {
-        for(int i = 0; i < array.length; i++) {
-            if(x == array[i])
+        for (int i = 0; i < array.length; i++)
+            if (x == array[i])
                 return true;
-        }
 
         return false;
     }
 
     // helper function to get index of element in array
     private int getIndex(int[] array, int x) {
-        for(int i = 0; i < array.length; i++) {
-            if(x == array[i])
+        for (int i = 0; i < array.length; i++)
+            if (x == array[i])
                 return i;
-        }
 
         return -1;
     }
