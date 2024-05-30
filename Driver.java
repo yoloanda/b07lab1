@@ -4,69 +4,81 @@ import java.io.IOException;
 
 public class Driver {
 
-    public static void main(String [] args) {
+	public static void main(String[] args) {
 
-       // test constructor w no parameters
-        Polynomial empty_poly = new Polynomial();
-        System.out.println("Evaluate polynomial 0x^0 @ 3: Expected value: 0; Actual value: " + empty_poly.evaluate(3));
+		// coefficients
+		double[] c1 = {7, 13, 4, -5};
+		double[] c2 = {8, -4};
+		double[] c3 = {21};
+		double[] c4 = {-2, 1};
+		double[] c5 = {-1, 2};
 
-        double[] c1 = {7, 3};
-        double[] c2 = {4, 8, 5};
-        //double[] c3 = {19, -13, 4};
-        double[] c4 = {-2};
+		// exponents
+		int[] e1 = {5, 2, 1, 0};
+		int[] e2 = {6, 1};
+		int[] e3 = {3};
+		int[] e4 = {1, 0};
+		int[] e5 = {0, 1};
 
-        int[] e1 = {2, 0};
-        int[] e2 = {3, 2, 1};
-        //int[] e3 = {10, 7, 1};
-        int[] e4 = {7};
 
-        Polynomial p1 = new Polynomial(c1, e1);
-        Polynomial p2 = new Polynomial(c2, e2);
-        Polynomial p3 = null;
+		// polynomials
+		Polynomial zero = new Polynomial();
+		Polynomial p1 = new Polynomial(c1, e1);
+		//Polynomial p1 = null;
 
-		try { // test constructor w file parameter
-			p3 = new Polynomial(new File("poly.txt"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			p1 = new Polynomial(new File("poly.txt"));
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 
-        Polynomial p4 = new Polynomial(c4, e4);
+		Polynomial p2 = new Polynomial(c2, e2);
+		Polynomial p3 = new Polynomial(c3, e3);
+		Polynomial p4 = new Polynomial(c4, e4);
+		Polynomial p5 = new Polynomial(c5, e5);
 
-        // test add method
-        Polynomial sum1 = p1.add(p2);
-        Polynomial sum2 = p3.add(p4);
-        Polynomial sum3 = p2.add(p3);
+		Polynomial sum1 = zero.add(p1);
+		Polynomial sum2 = p2.add(zero);
+		Polynomial sum3 = sum1.add(sum2);
+		Polynomial sum4 = p3.add(sum2);
+		Polynomial sum5 = sum2.add(p4);
+		Polynomial sum6 = p4.add(p5);
 
-        System.out.println("Evaluate 4x^3+15x^2+5x+3 @ 2.7: Expected value: 204.582; Actual value: " + sum1.evaluate(2.7));
-        System.out.println("Evaluate 19x^10-15x^7+4x @ 1.3: Expected value: 173.0084; Actual value: " + sum2.evaluate(1.3));
-        System.out.println("Evaluate 19x^10-13x^7+4x^3+8x^2+9x @ -1.1: Expected value: 69.0704; Actual value: " + sum3.evaluate(-1.1));
+		System.out.println("Evaluate 7x^5+13x^2+4x-5 @ 2.3 - Expected value: 523.5140; Actual value: " + sum1.evaluate(2.3));
+		System.out.println("Evaluate 8x^6-4x @ -1.4 - Expected value: 65.8363; Actual value: " + sum2.evaluate(-1.4));
+		System.out.println("Evaluate 8x^6+7x^5+13x^2 - 5 @ -0.5 - Expected value: -1.8438; Actual value: " + sum3.evaluate(-0.5));
+		System.out.println("Evaluate 8x^6+21x^3-4x @ 1.1 - Expected value: 37.7235; Actual value: " + sum4.evaluate(1.1));
+		System.out.println("Evaluate 8x^6-6x+1 @ -1.3 - Expected value: 47.4145; Actual value: " + sum5.evaluate(-1.3));
+		System.out.println("Evaluate 0 @ 10 - Expected value: 0.0; Actual value: " + sum6.evaluate(10));
 
-        // test multiply method
-        Polynomial prod1 = p2.multiply(p1);
-        Polynomial prod2 = p4.multiply(p3);
-        Polynomial prod3 = p3.multiply(p2);
+		Polynomial prod1 = p1.multiply(p2);
+		Polynomial prod2 = p3.multiply(p5);
+		Polynomial prod3 = p5.multiply(p4);
 
-        System.out.println("Evaluate 28x^5+56x^4+47x^3+24x^2+15x @ 1: Expected value: 170; Actual value: " + prod1.evaluate(1));
-        System.out.println("Evaluate -38x^17+26x^14-8x^8 @ -1: Expected value: 56; Actual value: " + prod2.evaluate(-1));
-        System.out.println("Evaluate 76x^13-52x^10+16x^4+152x^12-104x^9+32x^3+95x^11-65x^8+20x^2 @ 1: Expected value: 170; Actual value: " +  prod3.evaluate(1));
+		System.out.println("Evaluate 0 @ 14 - Expected value: 0.0; Actual value: " + zero.multiply(p3).evaluate(0));
+		System.out.println("Evaluate 0 @ 0 - Expected value: 0.0; Actual value: " + p3.multiply(zero).evaluate(0));
+		System.out.println("Evaluate 56x^11+104x^8+32x^7-68x^6-52x^3-16x^2+20x @ -0.3 - Expected value: -6.0858; Actual value: " + prod1.evaluate(-0.3));
+		System.out.println("Evaluate 42x^4-21x^3 @ 3.5 - Expected value: 5402.25; Actual value: " + prod2.evaluate(3.5));
+		System.out.println("Evaluate -4x^2+4x-1 @ -1.2 - Expected value: -11.56; Actual value: " + prod3.evaluate(-1.2));
 
-        // test hasRoot method
-        if (p1.hasRoot(-2))
-            System.out.println("-2 is a root of 7x^2+3");
+        if (p4.hasRoot(0.5))
+            System.out.println("0.5 is a root of -2x+1");
         else
-            System.out.println("-2 is not a root of 7x^2+3");
+            System.out.println("0.5 is not a root of -2x+1");
 
-        if (sum2.hasRoot(0))
-            System.out.println("0 is a root of 19x^10-15x^7+4x");
+        if (p2.hasRoot(3))
+            System.out.println("3 is a root of 8x^6-4x");
         else
-            System.out.println("0 is not a root of 19x^10-15x^7+4x");
+            System.out.println("3 is not a root of 8x^6-4x");
 
-        // test saveToFile method
         try {
-			empty_poly.saveToFile("polynomial1.txt");
-			prod3.saveToFile("polynomial2.txt");
+			zero.saveToFile("zero_poly.txt");
+			prod1.saveToFile("polynomial1.txt");
+			p3.saveToFile("polynomial2.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
         }
-    }
+
+	}
+
 }
