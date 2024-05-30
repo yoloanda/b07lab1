@@ -72,8 +72,11 @@ public class Polynomial {
         else
             for (int i = 0; i < exponents.length; i++) {
                 str = str.concat(String.valueOf(coefficients[i]));
-                str = str.concat("x");
-                str = str.concat(String.valueOf(exponents[i]));
+
+                if (exponents[i] != 0) {
+                    str = str.concat("x");
+                    str = str.concat(String.valueOf(exponents[i]));
+                }
 
                 if (i != exponents.length - 1 && coefficients[i + 1] > 0)
                     str = str.concat("+");
